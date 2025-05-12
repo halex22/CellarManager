@@ -11,6 +11,9 @@
             CsvStorage storage = new();
             BusinessLogic logic = new(storage);
             Tui tui = new(logic);
+
+            tui.Start();
+            
         }
     }
 }

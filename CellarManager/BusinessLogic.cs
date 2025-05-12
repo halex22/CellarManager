@@ -17,9 +17,10 @@ namespace CellarManager
             Beverages = _csvStorage.LoadBeverages();
         }
 
-        public void AddBeer(Beer beer)
+        public void AddBeer(string name, double degree, string style)
         {
-            throw new NotImplementedException();
+            Beer beer = new() { Name = name, AlcoholDegree = degree };
+            Beverages.Add(beer);
         }
 
         public void AddWine(Wine wine)

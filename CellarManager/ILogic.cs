@@ -9,7 +9,7 @@ namespace CellarManager
 {
     internal interface ILogic
     {
-        public void AddBeer(Beer beer);
+        public void AddBeer(string name, double degree, string style);
         public void AddWine(Wine wine);
         public List<Beverage> GetAllBeverages();
     }

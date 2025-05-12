@@ -8,9 +8,9 @@ namespace CellarManager.model
 {
     internal class Beverage
     {
-        string Name { get; set; }
-        double  AlcoholDegree { get; set; }
-        string type { get; set; }
+        public required string Name { get; set; }
+        public required double  AlcoholDegree { get; set; }
+        public string type { get; set; }
 
     }
 }
