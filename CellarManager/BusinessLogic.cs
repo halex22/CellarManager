@@ -11,6 +11,7 @@ namespace CellarManager
     {
         private IStorage _storage;
         public List<Beverage> Beverages { get; set; }
+
         public BusinessLogic(IStorage storage) 
         {
             _storage = storage;
@@ -24,7 +25,7 @@ namespace CellarManager
             if (IBU != null) beer.IBU = IBU;
             if (year != null) beer.Year = year;
             Beverages.Add(beer);
-            //_storage.SaveBeverages(Beverages);
+            _storage.SaveAllBeverages(Beverages);
         }
 
         public void AddWine(string name, double degree, WineType type, string? country, string? grape, int? year)
@@ -34,28 +35,29 @@ namespace CellarManager
             if (grape != null) wine.Grape = grape;
             if (year != null) wine.Year = year;
             Beverages.Add(wine);
-
+            _storage.SaveAllBeverages(Beverages);
         }
 
 
-        public void RemoveBeer(Beer beer)
+        public void RemoveBeverage(int index)
         {
-            throw new NotImplementedException();
+            Beverages.RemoveAt(index);
+            _storage.SaveAllBeverages(Beverages);
         }
 
-        public void RemoveWine(Wine wine)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Beverage> GetAllBeverages()
-        {
-            throw new NotImplementedException();
-        }
+        public List<Beverage> GetAllBeverages() => Beverages;
 
         public List<Beverage> FilterBeverageByName(string name)
         {
-            throw new NotImplementedException();
+            List<Beverage> filteredBeverages = [];
+            foreach (var beverage in Beverages)
+            {
+                if (beverage.Name.ToLower().Contains(name.ToLower()))
+                {
+                    filteredBeverages.Add(beverage);
+                }
+            }
+            return filteredBeverages;
         }
 
         public void RemoveBeverage(Beverage beverage)

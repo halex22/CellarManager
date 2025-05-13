@@ -13,7 +13,14 @@ namespace CellarManager.model
         public string Country {
             get => _country ?? "Unknown";
             set {
-                //string.IsNullOrEmpty
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    _country = "Unknown";
+                }
+                else
+                {
+                    _country = value;
+                }
             }
         }
         

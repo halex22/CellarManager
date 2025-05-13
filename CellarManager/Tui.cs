@@ -16,7 +16,7 @@ namespace CellarManager
         // creare una clase chiamata JsonStorage che implementa IStorage
 
         private ILogic _logic;
-        private string[] Options = { "Add Beer", "Add Wine", "list Beverages", "Remove Beverage" };
+        private string[] Options = { "Add Beer", "Add Wine", "list Beverages", "Remove Beverage", "add Dummy data" };
         private bool ShowErrorMessage = false;
 
         public Tui(ILogic logic)
@@ -32,14 +32,11 @@ namespace CellarManager
                 GiveUserOptions();
                 if (ShowErrorMessage) WriteErrorMessage();
                 string userInput = Console.ReadLine() ?? "";
-                Console.WriteLine($"User input is: {userInput}");
 
                 ShowErrorMessage = IsValidInput(userInput);
                 if (ShowErrorMessage) continue;
                 if (userInput.ToLower() == "q") break;
                 ProcessUserInput(userInput);
-
-
             }
 
         }
@@ -72,7 +69,6 @@ namespace CellarManager
 
         private void ProcessUserInput(string input)
         {
-            Console.WriteLine(input);
             switch (input)
             {
                 case "1":
@@ -81,17 +77,32 @@ namespace CellarManager
                 case "2":
                     HandleWineAddition();
                     break;
+                case "3":
+                    ShowAllBeverages();
+                    break;
+                case "4":
+                    HandleBeverageRemoval();
+                    break;
+                case "5":
+                    CreateDummyDate();
+                    break;
+                default:
+                    Console.WriteLine("Please provide a valid option");
+                    break;
             }
         }
 
         public void ShowAllBeverages()
         {
-            Console.WriteLine("Please choose one of the fallowing options (write the numer)");
+            //Console.WriteLine("Please choose one of the fallowing options (write the numer)");
             var beverages = _logic.GetAllBeverages();
+            Console.WriteLine("\n");
             for (int i = 0; i < beverages.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {beverages[i].Name}");
             }
+            Console.WriteLine("\n");
+
         }
 
 
@@ -120,9 +131,42 @@ namespace CellarManager
             string wineYear = Console.ReadLine();
             int.TryParse(wineYear, out int y);
         }
+        public void HandleBeverageRemoval()
+        {
+            Console.WriteLine("Please write the number og the beverage you want to delete");
+            var beverages = _logic.GetAllBeverages();
+            for (int i = 1; i < beverages.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {beverages[i].Name}");
+            }
+            int.TryParse(Console.ReadLine() ?? "", out int userInput);
+            int index = userInput - 1;
+            try 
+            {
+                _logic.RemoveBeverage(index);
+                
+            } 
+
+            catch (ArgumentOutOfRangeException)
+            {
+                Console.WriteLine("Please provide a valid index");
+            }
+        }
+        public void HandleBeverageSearch()
+        {
+            Console.WriteLine("Please write the name of the beverage you want to search");
+            string userInput = Console.ReadLine() ?? "";
+            var beverages = _logic.FilterBeverageByName(userInput);
+            for (int i = 0; i < beverages.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {beverages[i].Name}");
+            }
+        }
 
         public void CreateDummyDate()
         {
+            List<Beverage> samples = [];
+
             var beer1 = new Beer()
             {
                 Name = "Beer1",
@@ -160,24 +204,11 @@ namespace CellarManager
                 Grape = "Pinot Grigio",
                 Year = 2020
             };
-        }
-    }
 
-    class Animal
-
-    {
-        public string Name { get; set; }
-        public int Age { get; set; }
-        public string Species { get; set; }
-        public Animal(string name, int age, string species)
-        {
-            Name = name;
-            Age = age;
-            Species = species;
+            _logic.AddBeer(beer1.Name, beer1.AlcoholDegree, beer1.Type, beer1.Country, beer1.IBU, beer1.Year);
+            _logic.AddBeer(beer2.Name, beer2.AlcoholDegree, beer2.Type, beer2.Country, beer2.IBU, beer2.Year);
+            _logic.AddWine(wine1.Name, wine1.AlcoholDegree, wine1.Type, wine1.Country, wine1.Grape, wine1.Year);
+            _logic.AddWine(wine2.Name, wine2.AlcoholDegree, wine2.Type, wine2.Country, wine2.Grape, wine2.Year);
         }
-        public void Speak()
-        {
-            Console.WriteLine($"{Name} says hello!");
-        }
-    }
+    }   
 }

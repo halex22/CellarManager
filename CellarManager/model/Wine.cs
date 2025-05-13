@@ -13,7 +13,7 @@ namespace CellarManager.model
 
         public override string ToCsvString()
         {
-            return $"Wine, {base.ToCsvString()}, {Type}, {Grape}";
+            return $"Wine, {base.ToCsvString()}, {Type}, ,{Grape}";
         }
     }
 
