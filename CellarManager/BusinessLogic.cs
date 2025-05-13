@@ -9,21 +9,41 @@ namespace CellarManager
 {
     internal class BusinessLogic: ILogic
     {
-        private IStorage _csvStorage;
+        private IStorage _storage;
         public List<Beverage> Beverages { get; set; }
         public BusinessLogic(IStorage storage) 
         {
-            _csvStorage = storage;
-            Beverages = _csvStorage.LoadBeverages();
+            _storage = storage;
+            Beverages = _storage.LoadBeverages();
         }
 
-        public void AddBeer(string name, double degree, string style)
+        public void AddBeer(string name, double degree, BeerType type, string? country, int? IBU, int? year)
         {
-            Beer beer = new() { Name = name, AlcoholDegree = degree };
+            Beer beer = new() { Name = name, AlcoholDegree = degree,  Type= type};
+            if (country != null) beer.Country= country;
+            if (IBU != null) beer.IBU = IBU;
+            if (year != null) beer.Year = year;
             Beverages.Add(beer);
+            //_storage.SaveBeverages(Beverages);
         }
 
-        public void AddWine(Wine wine)
+        public void AddWine(string name, double degree, WineType type, string? country, string? grape, int? year)
+        {
+            Wine wine = new() { Name = name, AlcoholDegree = degree, Type = type };
+            if (country != null) wine.Country = country;
+            if (grape != null) wine.Grape = grape;
+            if (year != null) wine.Year = year;
+            Beverages.Add(wine);
+
+        }
+
+
+        public void RemoveBeer(Beer beer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveWine(Wine wine)
         {
             throw new NotImplementedException();
         }
@@ -33,12 +53,12 @@ namespace CellarManager
             throw new NotImplementedException();
         }
 
-        public void RemoveBeer(Beer beer)
+        public List<Beverage> FilterBeverageByName(string name)
         {
             throw new NotImplementedException();
         }
 
-        public void RemoveWine(Wine wine)
+        public void RemoveBeverage(Beverage beverage)
         {
             throw new NotImplementedException();
         }

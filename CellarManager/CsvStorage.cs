@@ -16,7 +16,18 @@ namespace CellarManager
 
         public void SaveAllBeverages(List<Beverage> beverages)
         {
-            throw new NotImplementedException();
+            StringBuilder sb = new();
+            sb.AppendLine("name, degree, type");
+
+            foreach (Beverage beverage in beverages)
+            {
+                sb.AppendLine(beverage.ToCsvString());
+            }
+
+            Console.WriteLine(sb.ToString());
+
+            string path = Path.Combine(Environment.CurrentDirectory, "beverages.csv");
+            File.WriteAllText(path, sb.ToString());
         }
     }
 }

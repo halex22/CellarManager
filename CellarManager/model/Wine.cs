@@ -8,7 +8,21 @@ namespace CellarManager.model
 {
     internal class Wine : Beverage
     {
-        string Vite {  get; set; }
+        public string? Grape { get; set; }
+        public required WineType Type { get; set; }
 
+        public override string ToCsvString()
+        {
+            return $"Wine, {base.ToCsvString()}, {Type}, {Grape}";
+        }
+    }
+
+    public enum WineType
+    {
+        Red,
+        White,
+        Rose,
+        Sparkling,
+        Dessert
     }
 }
