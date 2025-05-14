@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CellarManager.Interfaces;
 using CellarManager.model;
 
-namespace CellarManager
+namespace CellarManager.Storages
 {
     internal class JsonStorage : IStorage
     {

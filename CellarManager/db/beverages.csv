@@ -1,0 +1,4 @@
+Class, Name, Degree, Country, Year, type, IBU, Grape
+Beer,  Beer1, 5,  Germany, 2020, Lager, 20, 
+Wine,  Wine1, 12,  France, 2019, Red, ,Merlot
+Wine,  Wine2, 13,  Italy, 2020, White, ,Pinot Grigio

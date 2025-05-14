@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CellarManager.model;
+using CellarManager.Interfaces;
 
-namespace CellarManager
+namespace CellarManager.Storages
 {
     internal class CsvStorage : IStorage
     {
+        public required string FilePath { get; set; } 
         public List<Beverage> LoadBeverages()
         {
-            if (!File.Exists("beverages.csv"))
+            string path = Path.Combine(FilePath, "beverages.csv");
+            if (!File.Exists(path))
             {
-                File.Create("beverages.csv").Close();
+                File.Create(path).Close();
                 return new List<Beverage>();
             }
-            string[] rowBeverage = File.ReadAllLines("beverages.csv");
+            string[] rowBeverage = File.ReadAllLines(path);
             List<Beverage> beverages = new();
             for (int i = 1; i < rowBeverage.Length; i++)
             {
@@ -29,7 +32,7 @@ namespace CellarManager
                         AlcoholDegree = double.Parse(row[2]),
                         Country = row[3],
                         Year = int.Parse(row[4]),
-                        Type = Enum.TryParse<BeerType>(row[5], out BeerType type) ? type : BeerType.Lager,
+                        Type = Enum.TryParse(row[5], out BeerType type) ? type : BeerType.Lager,
                         IBU = int.TryParse(row[6], out int ibu) ? ibu : null
                     };
                     beverages.Add(beer);
@@ -42,13 +45,11 @@ namespace CellarManager
                         AlcoholDegree = double.Parse(row[2]),
                         Country = row[3],
                         Year = int.Parse(row[4]),
-                        Type = Enum.TryParse<WineType>(row[5], out WineType type) ? type : WineType.Red,
+                        Type = Enum.TryParse(row[5], out WineType type) ? type : WineType.Red,
                         Grape = row[7]
                     };
                     beverages.Add(wine);
                 }
-
-
             }
             return beverages;
         }
@@ -65,7 +66,7 @@ namespace CellarManager
 
             Console.WriteLine(sb.ToString());
 
-            string path = Path.Combine(Environment.CurrentDirectory, "beverages.csv");
+            string path = Path.Combine(FilePath, "beverages.csv");
             File.WriteAllText(path, sb.ToString());
         }
     }

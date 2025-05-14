@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CellarManager.model;
 
-namespace CellarManager
+namespace CellarManager.Interfaces
 {
     internal interface ILogic
     {

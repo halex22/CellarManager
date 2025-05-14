@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CellarManager.model;
 
-namespace CellarManager
+namespace CellarManager.Interfaces
 {
     internal interface IStorage
     {
+
         public void SaveAllBeverages(List<Beverage> beverages);
 
         public List<Beverage> LoadBeverages();
