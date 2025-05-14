@@ -1,0 +1,38 @@
+[
+  {
+    "class": "Beer",
+    "name": "Beer1",
+    "degree": "5",
+    "country": "Germany",
+    "year": "2020",
+    "IBU": "20",
+    "type": "Lager"
+  },
+  {
+    "class": "Beer",
+    "name": "Beer2",
+    "degree": "6",
+    "country": "Belgium",
+    "year": "2021",
+    "IBU": "30",
+    "type": "Ale"
+  },
+  {
+    "class": "Wine",
+    "name": "Wine1",
+    "degree": "12",
+    "country": "France",
+    "year": "2019",
+    "grape": "Merlot",
+    "type": "Red"
+  },
+  {
+    "class": "Wine",
+    "name": "Wine2",
+    "degree": "13",
+    "country": "Italy",
+    "year": "2020",
+    "grape": "Pinot Grigio",
+    "type": "White"
+  }
+]

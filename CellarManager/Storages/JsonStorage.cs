@@ -11,15 +11,49 @@ namespace CellarManager.Storages
 {
     internal class JsonStorage : IStorage
     {
-
+        public required string FilePath { get; set; }
         public List<Beverage> LoadBeverages()
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "beverages.json");
+            string path = Path.Combine(FilePath, "beverages.json");
             if (!File.Exists(path)) return [];
             string json = File.ReadAllText(path);
+            Console.WriteLine(json);
+            var parsedInfo = JsonSerializer.Deserialize<List<Dictionary<string, string>>>(json) ?? [];
+            if (parsedInfo.Count == 0) return [];
+            List<Beverage> beverages = [];
 
-            return [];
-
+            foreach (var item in parsedInfo)
+            {
+                string beverageType = item["class"];
+                if (beverageType == "Beer")
+                {
+                    Beer beer = new()
+                    {
+                        Name = item["name"],
+                        AlcoholDegree = double.Parse(item["degree"]),
+                        Country = item["country"],
+                        Year = int.Parse(item["year"]),
+                        Type = Enum.TryParse(item["type"], out BeerType type) ? type : BeerType.Lager,
+                        IBU = int.TryParse(item["IBU"], out int ibu) ? ibu : null
+                    };
+                    beverages.Add(beer);
+                }
+                else if (beverageType == "Wine")
+                {
+                    Wine wine = new()
+                    {
+                        Name = item["name"],
+                        AlcoholDegree = double.Parse(item["degree"]),
+                        Country = item["country"],
+                        Year = int.Parse(item["year"]),
+                        Type = Enum.TryParse(item["type"], out WineType type) ? type : WineType.Red,
+                        Grape = item["grape"]
+                    };
+                    beverages.Add(wine);
+                }
+                
+            }
+            return  beverages;
         }
 
         public void SaveAllBeverages(List<Beverage> beverages)
@@ -56,7 +90,7 @@ namespace CellarManager.Storages
             }
 
             string stringifyList = JsonSerializer.Serialize(beverageDictList, new JsonSerializerOptions { WriteIndented =  true});
-            string path = Path.Combine(Environment.CurrentDirectory, "beverages.json");
+            string path = Path.Combine(FilePath, "beverages.json");
             File.WriteAllText(path, stringifyList);
         }
     }

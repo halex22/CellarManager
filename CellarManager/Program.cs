@@ -7,7 +7,8 @@ namespace CellarManager
         static void Main(string[] args)
         {
             string path = @"C:\Users\Allievo\Desktop\Hugo\CellarManager\CellarManager\db";
-            CsvStorage storage = new() { FilePath = path};
+            //CsvStorage storage = new() { FilePath = path};
+            JsonStorage storage = new() { FilePath = path };
             BusinessLogic logic = new(storage);
             Tui tui = new(logic);
 
